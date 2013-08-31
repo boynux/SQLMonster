@@ -10,9 +10,11 @@
 
 namespace SQLMonster;
 
+use \DateTime as DateTime;
+
 class DateTimeField extends Field {
 	protected function _check_value () {
-		if ($this->_value instanceof \DateTime) {
+		if ($this->_value instanceof DateTime || $this->_value == null) {
 			return true;
 		} else {
 			return false;
@@ -21,22 +23,14 @@ class DateTimeField extends Field {
 
 	public function set ($value) {
 		try {
-			if (!$value  instanceof \DateTime) {
-				$this->_value = new \DateTime ($value);
+			if (!$value  instanceof DateTime) {
+				$this->_value = new DateTime ($value);
 			} else {
 				$this->_value = $value;
 			}
 		} catch (Exception $e) {
 			throw new InvalidData ("Invalid date format ($value)");
 		}
-	}
-
-	public function get ()
-	{		
-		if ($this->_value  instanceof \DateTime) 
-			return $this->_value->format (DATE_ATOM);
-		else 
-			return $this->_value;
 	}
 
 	public function __toString () {

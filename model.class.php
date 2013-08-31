@@ -284,7 +284,8 @@ abstract class Model
 
 			reset ($value);
 		} else if ($value instanceof \DateTime) {
-			return $value->format (DATE_ISO8601);
+			# return $value->format (DATE_ISO8601);
+			return $value->format ("Y-m-d H:i:s");
 		} else {
 			return "$value";
 		}	
