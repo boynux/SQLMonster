@@ -11,17 +11,20 @@
 class Config {
 	const config = 'secrets/config.ini'; 
 
+    private $path = '';
 	// This is a singleton class.
 	// we use instance method to retrive it's
 	// instance instead
-	private function __construct () {
+    private function __construct ($path) {
+        $this->path = $path;
+
 		$this->readConfigs ();
 	}
 
-	static public function &instance () {
+	static public function &instance ($path = '') {
 		static $_instance;
 		if (!isset ($_instance)) {
-			$_instance = new Config();
+			$_instance = new Config($path);
 		}
 
 		return $_instance;
@@ -48,7 +51,7 @@ class Config {
 	}
 
 	private function readConfigs () {
-		$fh = fopen (self::config, "r");
+		$fh = fopen ($this->path . '/' . self::config, "r");
 
 		if (!$fh) {
 			throw new Exception ("Could not open config file.");
